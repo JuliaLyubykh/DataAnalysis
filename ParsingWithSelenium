@@ -1,0 +1,80 @@
+pip install selenium
+pip install openai
+pip install beautifulsoup4
+
+from bs4 import BeautifulSoup
+from time import sleep
+import pandas as pd
+from dataclasses import dataclass
+from urllib.parse import urljoin
+from typing import list
+import requests
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+import openai
+import re
+
+#загрузка кода страницы
+response = requests.get('https://example.com')
+html = response.text
+
+#создание объекта bs4
+soup = BeautifulSoup(html, 'html.parser')
+
+#находим все элементы с тегом "а"
+links = soup.find_all('a')
+
+#вывод текста и ссылки на найденные элементы
+for link in links:
+  print(link.text)
+  print(link['href'])
+
+@dataclass
+class Person:
+  name: str
+  age: int
+  city: str
+
+#создание экземпляра класса
+person = Person('Jane', 21, 'Moscow')
+
+#print(person.name)
+#print(person.age)
+#print(person.city)
+
+years_compamy_urls = []
+driver = webdriver.Chrome()
+for u in range(400,420):
+  url0 = 'https://e-disclosure.ru/portal/company.aspx?id=' + str(u)
+  driver.get(url0)
+  driver.implicity_wait(30)
+  try:
+    years = driver_execute_script('return edCompanyEventList._data["year"]')
+  except:
+    pass
+  if years:
+    for years in years:
+      if years != 0:
+        res = 'https://e-disclosure.ru/Event/Page?companyId=' + str(u) + '&year=' + str(year) + '&attempt=1'
+        years_company_urls.append(res)
+years_company_urls
+
+df = pd.DataFrame(columns = ['URL', 'ID', 'YEAR'])
+i = 0
+for url in years_company_urls:
+  page = requests.get(url)
+  soup = BeautifulSoup(page.text, 'lxml')
+  for link in soup.find_all('a'):
+    if link_text == 'Решения общих собраний акционеров' or link_text == 'Решения совета директоров'
+      a = re.split(r'==([^<>+)&', url.replace('&year', '=='))
+      b = re.split(r'=([^<>+)==', url.replace('&year', '=='))
+      df = df.append({'URL' : link.get('href'), 'ID' : b[1], 'YEAR' : a[1]}, ignore_index = True)
+      i+=1
+      print(i)
+
+
+
+
+
+
