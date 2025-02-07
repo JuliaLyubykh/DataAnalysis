@@ -1,0 +1,79 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib as plt
+from scipy import stats
+
+data = pd.read_csv('C:/Users/kelly/HDisease.csv')
+
+data.head()
+
+num_rows = data.shape[0]
+num_column = data.shape[1]
+print('Количество строк: ', num_rows)
+print('Количество столбцов: ', num_column)
+
+df = pd.DataFrame(data.loc[:,['id','gender', 'age', 'hypertension', 'heart_disease', 'ever_married', 'work_type', 'Residence_type', 'avg_glicose_level', 'bmi', 'smoking_status', 'stroke']])
+df['NULL'] = pd.DataFrame(data.loc[:,['id','gender', 'age', 'hypertension', 'heart_disease', 'ever_married', 'work_type', 'Residence_type', 'avg_glicose_level', 'bmi', 'smoking_status', 'stroke']])
+df['%NULL'] = pd.DataFrame(data.loc[:,['id','gender', 'age', 'hypertension', 'heart_disease', 'ever_married', 'work_type', 'Residence_type', 'avg_glicose_level', 'bmi', 'smoking_status', 'stroke']])
+df
+
+data.dtypes
+
+data.dropna(inplace=True)
+print(data.isnull().sum())
+
+data.duplicated().value_counts()
+data.describe(exclude='number')
+
+new_data = data[data['stroke']==1]
+print(new_data['gender'].value_counts())
+gender_data=list(new_data['gender'].value_counts())
+print(gender_data)
+plt.pie(gender_Data, labels = ['Female', 'Male'], autopct='%.3f%', explode = [0, 0.1])
+plt.show()
+
+ax = sns.countplot(x='smoking_status', data = data)
+ax.bar_level(ax.containers[0])
+
+plt.figure(figsize=(10,5))
+sns.histplot(new_data['age'],kde=True,color='black')
+plt.title('Возрастное распределение людей, у которых случился приступ')
+plt.grid()
+
+significance_level = 0.05
+old = data[data['age']>=50]
+young = data[data['age'] < 50]
+tstat, pvalue = stats.ttest_ind(a = old.dropna()['stroke'], b = young.dropna()['stroke'], alternative = 'greater', equal_var = False)
+print('T-statistic value is ', tstat)
+print('P-value is ', pvalue)
+
+plt.figure(figsize=(12,7))
+new_Data = data[data['stroke'] == 1]
+ax = sns.histplot(data=new_data, x='age', hue='stroke',multiple='stack')
+plt.title('Распределение по возрасту людей с приступами')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
