@@ -78,6 +78,31 @@ for column in categorical_columns:
   print('Количество встреч моды: ', mode_count)
   print('Уникальные значеиниея: ', unique_values)
 
+copy_dataset.describe()
+
+copy_dataset.groupby('FastingsBS').count().head(10)
+copy_dataset.groupby('Age').count().head(10)
+copy_dataset.groupby('Sex').count().head(10)
+copy_dataset.groupby('Cholesterol').count().head(10)
+
+#print(copy_dataset.info())
+#print(copy_dataset.columns)
+
+#зависимость пола по возрастным категориям, чтобы понять процентное соотношение мужчин и женщин по возрасту
+grouped = copy_dataset.groupby(['Age', 'Sex']).size()
+#преобразование данных в процентное соотношение
+percentages = grouped.groupby(level=0).apply(lambda x: 100 * x / float(x.sum()))
+#print(percentages)
+foramtted = percentages.unstack()
+formatted.plot(kind='bar', stacked=True)
+plt.xlabel('Возраст')
+plt.ylabel('Процент')
+plt.title('Распределение по полу в разбивке по возрасту')
+plt.show()
+
+fig, axes =  
+
+
 
 
 
