@@ -74,7 +74,25 @@ def GetNews(url0):
   if url_td:
     url_ = url_td.find_next_sibling('td').strong.text  
 
-  id_ = 
+  id_ = re.split(r'=([^<>]+)', url0)
+  id_ = id_[1]
+
+  return company_name, short_company_name, location, adress_EGRUL, adress, reg_date, number_OGRN, INN, reg_authority, name_managing_ord, phone, url_, id_
+
+full_urls = []
+
+for u in range(400,420):
+  res = 'https://e-disclosure.ru/protal.company.aspx?id=' + str(u)
+  full_urls.append(res)
+
+news = []
+
+for linl in full_urls:
+  res = GetNews(link)
+  news.append(news)
+
+df1 = pd.DataFrame(news)
+
 
 
 
