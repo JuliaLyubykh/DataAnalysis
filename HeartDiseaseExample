@@ -28,3 +28,56 @@ correlation_matrix = copy_dataset.corr()
 #визуализация корреляционной матрицы
 figure = px.imshow(correlation_matrix)
 figure.show()
+
+#наименование столбцов таблицы
+#column = copy_dataset.columns
+#for i in range(len(column)):
+#   print(column[i])
+
+#вывод количества уникальных значений, нулевых и пустых значений + доля в % от общего количества по столбцам
+def columnValues(copy_dataset):
+  row = [copy_dataset.nunique(), (copy_dataset == 0).sum(axis=0), copy_dataset.isna().sum(), round(copy_dataset.isna().sum() / len(copy_dataset) * 100, 1), copy_dataset.dtypes]
+  return row
+
+data = []
+for column in copy_dataset:
+  data.append([column] + columnValues(copy_dataset[column]))
+
+print(tabulate(data, headers = ['Название', 'Количество уникальных значений', 'Количество нулевых значений', 'Пустые', 'Процет пустых', 'Тип данных'], tablefmt='orgtbl'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
