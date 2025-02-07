@@ -8,4 +8,80 @@ def GetNews(api_key, source):
     news.append(article['title'])
   return news
 
-def GetNews(url0)
+def GetNews(url0):
+  page0 = requests.get(url0)
+  soup0 = BeautifulSoup(page0.text, 'lxml')
+
+  company_name = ''
+  short_company_name = ''
+  location = ''
+  adress_EGRUL = ''
+  adress = ''
+  reg_date = ''
+  number_OGRN = ''
+  INN = ''
+  reg_authority = ''
+  name_managing_ord = ''
+  phone = ''
+  url_ = ''
+  id_ = ''
+
+  company_name_td = soup0.find('td', text='Полное наименование компании')
+  if company_name_td:
+    company_name = company_name_td.find_next_sibling('td').strong.text
+
+  short_company_name_td = soup0.find('td', text='Сокращенное наименование компании')
+  if short_company_name_td:
+    short_company_name = short_company_name_td.find_next_sibling('td').strong.text  
+
+  location_td = soup0.find('td', text='Место нахождения')
+  if short_company_name_td:
+    location = location_td.find_next_sibling('td').strong.text  
+
+  adress_EGRUL_td = soup0.find('td', text='Адрес Субъекта раскрытия, указанный ЕГРЮЛ')
+  if adress_EGRUL_td:
+    adress_EGRUL = adress_EGRUL_td.find_next_sibling('td').strong.text  
+
+  adress_td = soup0.find('td', text='Почтовый адрес')
+  if adress_td:
+    adress = adress_td.find_next_sibling('td').strong.text  
+
+  reg_date_td = soup0.find('td', text='Адрес государственной регистрации')
+  if reg_date_td:
+    reg_date = reg_date_td.find_next_sibling('td').strong.text  
+
+  number_OGRN_td = soup0.find('td', text='ОГРН')
+  if number_OGRN_td:
+    number_OGRN = number_OGRN_td.find_next_sibling('td').strong.text  
+
+  INN_td = soup0.find('td', text='ИНН')
+  if INN_td:
+    INN = INN_td.find_next_sibling('td').strong.text  
+
+  reg_authority_td = soup0.find('td', text='Регион')
+  if reg_authority_td:
+    reg_authority = reg_authority_td.find_next_sibling('td').strong.text  
+
+  name_managing_ord_td = soup0.find('td', text='Наименование урпавляющей компании')
+  if name_managing_ord_td:
+    name_managing_ord = name_managing_ord_td.find_next_sibling('td').strong.text  
+
+  phone_td = soup0.find('td', text='ТЕлефон управляющей компании')
+  if phone_td:
+    phone = phone_td.find_next_sibling('td').strong.text  
+
+  url_td = soup0.find('td', text='Адрес страницы в Интернете')
+  if url_td:
+    url_ = url_td.find_next_sibling('td').strong.text  
+
+  id_ = 
+
+
+
+
+
+
+
+
+
+
