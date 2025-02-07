@@ -30,8 +30,8 @@ figure = px.imshow(correlation_matrix)
 figure.show()
 
 #наименование столбцов таблицы
-#column = copy_dataset.columns
-#for i in range(len(column)):
+columns = copy_dataset.columns
+#for i in range(len(columns)):
 #   print(column[i])
 
 #вывод количества уникальных значений, нулевых и пустых значений + доля в % от общего количества по столбцам
@@ -44,6 +44,40 @@ for column in copy_dataset:
   data.append([column] + columnValues(copy_dataset[column]))
 
 print(tabulate(data, headers = ['Название', 'Количество уникальных значений', 'Количество нулевых значений', 'Пустые', 'Процет пустых', 'Тип данных'], tablefmt='orgtbl'))
+
+num_rows = len(copy_dataset)
+num_columns = len(copy_dataset.columns)
+print('Количество строк: ', num_rows)
+print('Количество столбцов: ', num_columns)
+
+memory_usage = copy_dataset.memory_usage().sum()
+print('Размер в оперативной памяти: ', memory_usage, ' байт')
+
+#анализ интервальных переменных
+numerical_columns = copy_dataset.select_dtypes(include = [int, float]).columns
+for column in numerical_columns:
+  print('Статистика для столбца: ', column)
+  print('Стандартное отклонение: ', copy_dataset[column].std())
+  print('Минимальное значение: ', copy_dataset[column].min())
+  print('Медиана: ', copy_dataset[column].median())
+  print('Среднее значение: ', copy_dataset[column].mean())
+  print('Максимальное значение: ', copy_dataset[column].max())
+  print('10-й персентиль: ', copy_dataset[column].quantile(0.1))
+  print('25-й персентиль: ', copy_dataset[column].quantile(0.25))
+  print('75-й персентиль: ', copy_dataset[column].quantile(0.75))
+  print('90-й персентиль: ', copy_dataset[column].quantile(0.9))
+
+#анализ категориальных переменных
+categorical_columns = copy_dataset.select_dtypes(include = [object]).columns
+for column in categorical_columns:
+  print('Статистика для столбца: ', column)
+  mode = copy_dataset[column].mode()[0]
+  mode_count = copy_dataset[column].value_counts()[mode]
+  unique_values = copy_dataset[column].nunique()
+  print('Мода: ', mode)
+  print('Количество встреч моды: ', mode_count)
+  print('Уникальные значеиниея: ', unique_values)
+
 
 
 
