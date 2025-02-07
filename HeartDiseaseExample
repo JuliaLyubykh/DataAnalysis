@@ -1,1 +1,30 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from tabulate import tabulate
+import matplotlib.pyplot as plt
+import re
+import scipy.stats
+import statsmodels.stats
+import plotly.express as px
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 
+pd.set_option('display.max_columns', None)
+
+#загружаем данные
+orig_dataset = pd.read_csv('C:/Users/kelly/HeartProblems.csv')
+
+#создание копии датасета, чтобы не затронуть оригинальные данные без надобности
+copy_dataset = orig_dataset
+
+#вычисление количества строк и столбцов таблицы
+copy_dataset.shape
+
+#вычисление корреляций
+correlation_matrix = copy_dataset.corr()
+
+#визуализация корреляционной матрицы
+figure = px.imshow(correlation_matrix)
+figure.show()
