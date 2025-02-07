@@ -1,0 +1,11 @@
+import requests
+def GetNews(api_key, source):
+  url = f"https://api.example.com/news?api_key={api_key}&source={source}"
+  response = requests.get(url)
+  data = response.json()
+  news = []
+  for article in data['articles']:
+    news.append(article['title'])
+  return news
+
+def GetNews(url0)
