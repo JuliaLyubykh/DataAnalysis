@@ -1,1 +1,26 @@
+import psycopg2
 
+HOST = '...............'
+PORT = ....
+DATABASE = '...'
+USER = '...'
+PASSWORD = '...'
+
+connection = psycopg2.connect(
+    host=HOST,
+    port=PORT,
+    database=DATABASE,
+    user=USER,
+    password=PASSWORD,
+)
+
+connection.autocommit = True
+cursor = connection.cursor()
+
+query = """select * from orders limit 10"""
+cursor.execute(query)
+
+res = cursor.fetchall()
+len(res)
+
+cursor.fetchone()
