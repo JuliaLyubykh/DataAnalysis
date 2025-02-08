@@ -1,0 +1,46 @@
+import pandas as pd
+import seaborn as sns
+from scipy import stats
+
+import statsmodels.api as sm 
+from statsmodels.formula.api import ols
+from statscodels.stats.anova import anova_lm
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+
+data = pd.read_csv('diet.csv')
+data.head()
+
+#one-way anova
+sns.boxplot(data = data, x = 'diet', y = 'weight6weeks', hue = 'gender')
+
+sample_f = data[data.gender == 'F'].weight6weeks
+sample_m = data[data.gender == 'M'].weight6weeks
+stats.f_oneway(sample_f, sample_m)
+model = ols('weight6weeks ~ gender', data).fit()
+anova_lm(model)
+
+stats.shapiro(model.resid)
+sm.qqplot(model.resid, line = 's')
+stats.bartlett(sample_f, sample_m)
+model = ols('weight6weeks ~ diet', data).fit()
+anova_lm(model)
+
+print(pairwise_tukeyhsd(endog = data.weight6weeks, groups = data.diet, alpha = 0.05))
+print(pairwise_tukeyhsd(endog = data.weight6weeks, groups = data.gender, alpha = 0.05))
+
+#two-way anova
+model = ols('weight6weeks ~ diet + gender + diet:gender', data).fit()
+anova_lm(model)
+sm.qqplot(model.resid, line = 's')
+
+sample_a_f = data[(data.diet == 'A') & (data.gender == 'F')].weight6weeks
+sample_b_f = data[(data.diet == 'B') & (data.gender == 'F')].weight6weeks
+sample_c_f = data[(data.diet == 'C') & (data.gender == 'F')].weight6weeks
+sample_a_m = data[(data.diet == 'A') & (data.gender == 'M')].weight6weeks
+sample_b_m = data[(data.diet == 'B') & (data.gender == 'M')].weight6weeks
+sample_c_m = data[(data.diet == 'C') & (data.gender == 'M')].weight6weeks
+
+stats.bartlett(sample_a_f, sample_b_f, sample_c_f, sample_a_m, sample_b_m, sample_c_m)
+
+data['combination'] = data.gender + '/' + data.diet
+print(pairwise_tukeyhsd(endog = data.weight6weeks, groups = data.combination, alpha = 0.05))
