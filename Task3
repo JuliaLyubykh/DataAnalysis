@@ -1,0 +1,14 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = pd.read_csv('data.csv')
+
+mean = data['salary'].mean()
+median = data['salary'].median()
+
+plt.figure(figsize = (10, 8))
+plt.hist(data['salary'], bins = 10, edgecolor = 'black')
+plt.xlabel('Зарплата')
+plt.ylabel('Частота')
+plt.title('Распределение затрат')
+plt.show()
