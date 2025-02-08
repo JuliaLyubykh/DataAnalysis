@@ -1,0 +1,31 @@
+import pandas as pd
+import seaborn as sns
+
+data = pd.read_csv('data.csv')
+data.head()
+data.tail()
+data.info()
+
+#порядковый тип данных
+data['Ship Mode'].unique()
+#номинальный тип данных
+data['Segment'].unique()
+#дискретный тип данных
+len(data['Postal Code'].unique())
+#непрерывный тип данных
+data['Sales']
+
+data.describe()
+
+sns.countplot(x=data['Ship Mode'])
+sns.countplot(x=data['Segment'])
+
+data = data[data['Sales'] < 500]
+sns.histplot(x=data['Sales'])
+data.shape
+
+sns.boxplot(x = data['Sales'])
+
+
+sns.boxplot(x = data['Sales'], y = data['Segment'])
+sns.boxplot(x = data['Sales'], y = data['Ship Mode'])
