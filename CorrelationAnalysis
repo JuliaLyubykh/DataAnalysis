@@ -1,0 +1,35 @@
+import pandas as pd
+import numpy as np
+from scipy import stats
+from scipy.stats import pearsonr, spearmanr, kendalltau
+from scipy.stats import chi2_contingency
+import seaborn as sns
+
+data = pd.read_csv('cardio.csv', sep = ';')
+data.head()
+data.info()
+
+numeric = ['age', 'height', 'weight', 'ap_hi', 'ap_lo']
+data[numeric].corr()
+sns.heatmap(data[numeric].corr(), vmin = -1, vmax = 1, annot = True)
+
+pearsonr(data.weight, data.height)
+spearmanr(data.weight, data.cholesterol)
+kendalltau(data.weight, data.cholesterol)
+
+pearsonr(data.weight, data.ap_hi)
+pearsonr(data.height, data.ap_hi)
+
+pd.crosstab(data.smoke, data.cardio)
+sns.heatmap(pd.crosstab(data.smoke, data.cardio), annot = True, linewidth = 2, linecolor = 'white')
+
+pd.crosstab(data.smoke, data.cardio)/data.shape[0]
+sns.heatmap(pd.crosstab(data.smoke, data.cardio)/data.shape[0], annot = True, linewidth = 2, linecolor = 'white', fmt ='.1')
+
+chi2_contingency(pd.crosstab(data.smoke, data.cardio))
+
+
+
+
+
+
