@@ -1,0 +1,16 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.stats import pearsonr
+
+data = pd.read_csv('data.csv')
+
+Price = data['Price']
+Value = data['Value']
+
+corr = pearsonr(Price, Value)
+
+plt.scatter(Price, Value)
+plt.xlabel('Цена')
+plt.ylabel('Значение')
+plt.title('Рассеяние')
+plt.show()
