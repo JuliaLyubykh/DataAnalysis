@@ -1,0 +1,28 @@
+import pandas as pd
+import seaborn as sns
+from scipy import stats
+from statsmodel.formula.api import ols
+from statsmodel.stats.anova import anova_lm
+from statsmodel.api as sm
+from statsmodel.stats.multicomp import pairwise_tukeyhsd
+
+data = pd.read_csv('data.csv', index_col = 0)
+data.head()
+data.info()
+
+data = data[data.Graduated.isna() != True]
+
+sns.boxplot(data = data, x = 'Segmentation', y = 'Age', hue = 'Graduated')
+
+one_way = ols('Age ~ Segmentation', data).fit()
+anova_lm(one_way)
+
+sm.qqplot(one_way.resid, line = 's')
+
+two_way = ols('Age ~ Segmentation + Graduated + Segmentation:Graduated', data).fit()
+anova_lm(two_way)
+
+sm.qqplot(two_way.resid, line = 's')
+
+data['combination'] = data.Segmentation + '/' + data.Graduated
+pairwise_tukeyhsd(endog = data.Age.astype('float'), groups = data.combination, aplpha = 0.05)
