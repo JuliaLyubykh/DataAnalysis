@@ -1,0 +1,23 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.stats import shapiro
+
+data = pd.read_csv('data.csv')
+data.head()
+data.describe()
+
+stat, p = shapiro(data['variable'])
+
+plt.figure(figsize=(8,6))
+sns.histplot(data['variable'], kde = True)
+plt.xlabel('Значение')
+plt.ylabel('Частота')
+plt.title('Распределение данных')
+plt.show()
+
+plt.figure(figsize=(8,6))
+sns.histplot(data['variable'])
+plt.xlabel('Переменная')
+plt.title('Ящик с усами')
+plt.show()
