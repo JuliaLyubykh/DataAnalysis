@@ -1,0 +1,52 @@
+#синтетические данные
+import seaborn as sns
+import numpy as np
+import pandas as pd
+
+x = [10, 2, 2, 5, 26, 6]
+y = [10, 2, 2, 5, 26, 6, 100, 1500, 2000]
+
+sns.set(rc={'figure.figsize': (11, 5)})
+sns.histplot(x)
+sns.histplot(y)
+
+#дисперсия
+d_x = np.var(x)
+d_y = np.var(y)
+
+#среднеквадратичное отклонение
+s_x = np.std(x)
+s_y = np.std(y)
+
+#размах
+max(x) - min(y)
+
+#квартили
+q1 = np.quantile(x, q = 0.25)
+q3 = np.quantile(x, q = 0.75)
+
+sns.boxplot(x=x, colot = 'orange')
+
+#реальный набор данных
+data = pd.read_csv('data.csv')
+
+data.describe()
+
+np.var(data.Sales)
+np.std(data.Sales)
+np.max(data.Sales) - np.min(data.Sales)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
