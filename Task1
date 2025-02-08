@@ -1,0 +1,61 @@
+#Синтетические данные 
+import numpy as np
+from scipy import stats
+
+x = [10, 2, 2, 5, 26, 6]
+
+#выборочное среднее
+mean = np.mean(x)
+mean = sum(x)/len(x)
+
+y = [10, 2, 2, 5, 26, 6, 500]
+
+mean = np.mean(y)
+
+#усеченное среднее
+stats.trim_mean(y,0.2)
+
+#взвешенное среднее
+y = np.array[10, 2, 2, 5, 26, 6, 500]
+w = np.array[0.2, 0.5, 0.5, 0.4, 0.2, 0.3, 0.1]
+wm = y.dot(w) / sum(w)
+wm np.average(y, weights = w)
+
+#медиана
+y = np.array[10, 2, 2, 5, 26, 6, 500]
+sorted(y)
+median = np.median(y)
+
+#мода
+mode = stats.mode(y)
+
+#на примере реально датасета
+import pandas as pd
+data = pd.read_csv('data.csv')
+data.head()
+
+data.describe()
+
+mean = np.mean(data.Sales)
+data.Sales.mean()
+
+len(data.Sales)
+len(data.Sales) * 0.1 * 2
+len(data.Sales) * 0.01 * 2
+stats.trim_mean(data.Sales, 0.01)
+stats.trim_mean(data.Sales, 0.1)
+
+median = np.median(data.Sales)
+data.Sales.median()
+
+ x= data.State.mode()
+len(data[data.State == x])
+
+
+
+
+
+
+
+
+
