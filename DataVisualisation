@@ -1,0 +1,52 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import plotly.express as px
+from scipy.stats import shapiro
+
+data = pd.read_csv('diamond_prices.csv', index_cpl = 0)
+data.head()
+data.info()
+data = data[:5000]
+
+sns.pairplot(data)
+
+sns.scatterplot(data = data, x = 'x', y = 'carat')
+sns.scatterplot(data = data, x = 'x', y = 'carat', hue = 'color')
+
+sns.histplot(data.depth, binwidth = 0.5)
+data.depth.min(), data.depth.max()
+data.depth.mean()
+shapiro(data.depth)
+
+sns.boxplot(data = data, x = 'carat')
+sns.boxplot(data = data, x = 'carat', y = 'cut')
+
+data.price.mean()
+sns.barplot(data, x = 'price', y = 'cut')
+sns.countplot(data = data, x = 'cut')
+
+number = ['price', 'depth', 'table', 'x', 'y', 'z', 'carat']
+data[number].corr()
+sns.heatmap(data[number].corr(), vmin = -1, vmax = 1, annot = True)
+
+plt.scatter(data.x, data.carat)
+plt.xlabel('x')
+plt.ylabel('y')
+
+plt.scatter(data[data.cut == 'Ideal'].x, data[data.cut == 'Ideal'].carat, label = 'Ideal')
+plt.scatter(data[data.cut == 'Good'].x, data[data.cut == 'Good'].carat, label = 'Good') 
+plt.xlabel('x', size = 20)
+plt.ylabel('y', size = 15)
+plt.legend()
+plt.grid()
+
+data.cut.valut_count()
+data.cut.unique()
+plt.pie(data.cut.value_counts(), labels = data.cut.unique(), autocpt = '%1.1f%')
+
+px.histogram(data.depth, color = data.cut)
+px.box(data, x = 'carat', colot = 'cut')
+
+
+  
