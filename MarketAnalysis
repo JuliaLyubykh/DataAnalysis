@@ -1,0 +1,46 @@
+import pandas as pd
+import seaborn as sns
+from scipy import stats
+from statsmodel.formula.api import ols
+from statsmodel.stats.anova import anova_lm
+from statsmodel.api as sm
+from statsmodel.stats.multicomp import pairwise_tukeyhsd
+from scipy.stats import pearsonr, spearmanr, kendalltau
+
+data = pd.read_csv('data.csv', index_col = 0)
+data.head()
+data.info()
+data.work_year.unique()
+data.experience_level.unique()
+data.job_title.unique()
+
+sns.boxplot(data = data, x = 'salary_in_usd')
+data = data[data.salasry_in_usd < 30000]
+spearmanr(data.salary_in_usd, data.experience_level)
+sns.histplot(data = data, x = 'salary_in_usd', hue = 'experience_level')
+spearmanr(data.salary_in_usd, data.company_size)
+sns.histplot(data = data, x = 'salary_in_usd', hue = 'company_size')
+sns.countplot(data = data, x = 'company_size')
+
+sns.countplot(data = data, x = 'company_size', hue = 'experience_level')
+sns.boxplot(data = data, x = 'salary_in_usd', y = 'experience_level', hue = 'company_size')
+
+middle = data[data.experience_level == 'MI']
+sns.histplot(data = data, x = 'salary_in_usd')
+tr_data, l = stats.boxcox(middle.salary_in_usd)
+sns.histplot(tr_data)
+middle.loc[:, ('salary_in_usd')] = tr_data
+
+one_way = ols('salary_in_usd ~ company_size', middle).fit()
+anova_lm(one_way)
+
+middle_s = middle[middle.company_size == 'S'].salary_in_usd
+middle_m = middle[middle.company_size == 'M'].salary_in_usd
+middle_l = middle[middle.company_size == 'L'].salary_in_usd
+
+stats.levene(middle_s, middle_m, middle_l)
+
+pairwise_tukeyhsd(endog = middle.salary_in_usd, alpha = 0.05, groups = middle['company_size'])
+
+one_way = ols('salary_in_usd ~ company_size', senior).fit()
+anova_lm(one_way)
